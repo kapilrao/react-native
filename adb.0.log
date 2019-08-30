@@ -1,0 +1,22 @@
+--- adb starting (pid 15301) ---
+adb I 08-29 12:17:06 15301 15301 main.cpp:57] Android Debug Bridge version 1.0.39
+adb I 08-29 12:17:06 15301 15301 main.cpp:57] Version 1:8.1.0+r23-5~18.04
+adb I 08-29 12:17:06 15301 15301 main.cpp:57] Installed as /usr/lib/android-sdk/platform-tools/adb
+adb I 08-29 12:17:06 15301 15301 main.cpp:57] 
+adb I 08-29 12:17:06 15301 15301 adb_auth_host.cpp:416] adb_auth_init...
+adb I 08-29 12:17:06 15301 15301 adb_auth_host.cpp:174] read_key_file '/home/kapil/.android/adbkey'...
+adb I 08-29 12:17:06 15301 15301 adb_auth_host.cpp:391] adb_auth_inotify_init...
+--- adb starting (pid 4499) ---
+adb I 08-29 13:47:02  4499  4499 main.cpp:57] Android Debug Bridge version 1.0.39
+adb I 08-29 13:47:02  4499  4499 main.cpp:57] Version 1:8.1.0+r23-5~18.04
+adb I 08-29 13:47:02  4499  4499 main.cpp:57] Installed as /usr/lib/android-sdk/platform-tools/adb
+adb I 08-29 13:47:02  4499  4499 main.cpp:57] 
+adb I 08-29 13:47:02  4499  4499 adb_auth_host.cpp:416] adb_auth_init...
+adb I 08-29 13:47:02  4499  4499 adb_auth_host.cpp:174] read_key_file '/home/kapil/.android/adbkey'...
+adb I 08-29 13:47:02  4499  4499 adb_auth_host.cpp:391] adb_auth_inotify_init...
+adb I 08-29 17:21:14  4499  4499 adb_auth_host.cpp:467] Calling send_auth_response
+adb I 08-29 17:21:14  4499  4499 adb_auth_host.cpp:435] Calling send_auth_publickey
+adb I 08-29 17:26:44  4499  4499 adb_auth_host.cpp:467] Calling send_auth_response
+adb I 08-29 17:26:44  4499  4499 adb_auth_host.cpp:435] Calling send_auth_publickey
+adb I 08-29 18:20:23  4499  4499 adb_auth_host.cpp:467] Calling send_auth_response
+adb I 08-29 18:20:23  4499  4499 adb_auth_host.cpp:435] Calling send_auth_publickey
