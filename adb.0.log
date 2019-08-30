@@ -20,3 +20,48 @@ adb I 08-29 17:26:44  4499  4499 adb_auth_host.cpp:467] Calling send_auth_respon
 adb I 08-29 17:26:44  4499  4499 adb_auth_host.cpp:435] Calling send_auth_publickey
 adb I 08-29 18:20:23  4499  4499 adb_auth_host.cpp:467] Calling send_auth_response
 adb I 08-29 18:20:23  4499  4499 adb_auth_host.cpp:435] Calling send_auth_publickey
+--- adb starting (pid 9279) ---
+adb I 08-30 11:41:38  9279  9279 main.cpp:57] Android Debug Bridge version 1.0.39
+adb I 08-30 11:41:38  9279  9279 main.cpp:57] Version 1:8.1.0+r23-5~18.04
+adb I 08-30 11:41:38  9279  9279 main.cpp:57] Installed as /usr/lib/android-sdk/platform-tools/adb
+adb I 08-30 11:41:38  9279  9279 main.cpp:57] 
+adb I 08-30 11:41:38  9279  9279 adb_auth_host.cpp:416] adb_auth_init...
+adb I 08-30 11:41:38  9279  9279 adb_auth_host.cpp:174] read_key_file '/home/kapil/.android/adbkey'...
+adb I 08-30 11:41:38  9279  9279 adb_auth_host.cpp:391] adb_auth_inotify_init...
+adb I 08-30 12:52:37  9279  9279 adb_auth_host.cpp:467] Calling send_auth_response
+adb I 08-30 12:52:37  9279  9279 adb_auth_host.cpp:435] Calling send_auth_publickey
+adb I 08-30 13:19:02  9279  9279 adb_auth_host.cpp:467] Calling send_auth_response
+adb I 08-30 13:19:03  9279  9279 adb_auth_host.cpp:467] Calling send_auth_response
+adb I 08-30 13:19:03  9279  9279 adb_auth_host.cpp:435] Calling send_auth_publickey
+--- adb starting (pid 6946) ---
+adb I 08-30 15:22:42  6946  6946 main.cpp:57] Android Debug Bridge version 1.0.39
+adb I 08-30 15:22:42  6946  6946 main.cpp:57] Version 1:8.1.0+r23-5~18.04
+adb I 08-30 15:22:42  6946  6946 main.cpp:57] Installed as /usr/lib/android-sdk/platform-tools/adb
+adb I 08-30 15:22:42  6946  6946 main.cpp:57] 
+adb I 08-30 15:22:42  6946  6946 adb_auth_host.cpp:416] adb_auth_init...
+adb I 08-30 15:22:42  6946  6946 adb_auth_host.cpp:174] read_key_file '/home/kapil/.android/adbkey'...
+adb I 08-30 15:22:42  6946  6946 adb_auth_host.cpp:391] adb_auth_inotify_init...
+adb I 08-30 15:22:42  6946  6946 adb_auth_host.cpp:467] Calling send_auth_response
+adb I 08-30 15:22:43  6946  6946 adb_auth_host.cpp:435] Calling send_auth_publickey
+adb I 08-30 15:29:25  6946  6946 adb_auth_host.cpp:467] Calling send_auth_response
+adb I 08-30 15:29:25  6946  6946 adb_auth_host.cpp:435] Calling send_auth_publickey
+adb I 08-30 15:29:32  6946  6946 adb_auth_host.cpp:467] Calling send_auth_response
+adb I 08-30 15:29:32  6946  6946 adb_auth_host.cpp:435] Calling send_auth_publickey
+adb E 08-30 15:42:03  6946  8293 transport_usb.cpp:146] remote usb: 1 - write terminated: Connection timed out
+adb I 08-30 15:42:13  6946  6946 adb_auth_host.cpp:467] Calling send_auth_response
+adb I 08-30 15:42:13  6946  6946 adb_auth_host.cpp:435] Calling send_auth_publickey
+adb I 08-30 15:44:36  6946  6946 adb_auth_host.cpp:467] Calling send_auth_response
+adb I 08-30 15:44:36  6946  6946 adb_auth_host.cpp:435] Calling send_auth_publickey
+adb I 08-30 15:44:48  6946  6946 adb_auth_host.cpp:467] Calling send_auth_response
+adb I 08-30 15:44:48  6946  6946 adb_auth_host.cpp:435] Calling send_auth_publickey
+adb I 08-30 16:16:24  6946  6946 adb_auth_host.cpp:467] Calling send_auth_response
+adb I 08-30 16:16:25  6946  6946 adb_auth_host.cpp:435] Calling send_auth_publickey
+adb I 08-30 16:23:48  6946  6946 adb_auth_host.cpp:467] Calling send_auth_response
+adb I 08-30 16:23:48  6946  6946 adb_auth_host.cpp:435] Calling send_auth_publickey
+adb I 08-30 18:24:11  6946  6946 adb_auth_host.cpp:467] Calling send_auth_response
+adb I 08-30 18:24:12  6946  6946 adb_auth_host.cpp:435] Calling send_auth_publickey
+adb E 08-30 18:31:15  6946 14008 transport_usb.cpp:146] remote usb: 1 - write terminated: Cannot send after transport endpoint shutdown
+adb I 08-30 18:31:16  6946  6946 adb_auth_host.cpp:467] Calling send_auth_response
+adb I 08-30 18:31:16  6946  6946 adb_auth_host.cpp:435] Calling send_auth_publickey
+adb I 08-30 18:31:24  6946  6946 adb_auth_host.cpp:467] Calling send_auth_response
+adb I 08-30 18:31:24  6946  6946 adb_auth_host.cpp:435] Calling send_auth_publickey
