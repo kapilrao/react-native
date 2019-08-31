@@ -28,6 +28,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
+  },
+  hintBulb: {
+    fontSize: 30,
+    marginLeft: 5,
+    color: '#F9A602'
+  },
+  quesTimer: {
+    backgroundColor: 'white',
+    padding: 2,
+    borderRadius: 4,
+    color: 'gray',
+    fontWeight: '500',
+    fontSize: 16
   }
 });
 

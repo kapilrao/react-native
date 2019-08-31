@@ -1,6 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React, { Component } from 'react';
-import QuestionSkillScoreComponent from '../QuestionSkillScoreComponent'
+import QuestionSkillScoreComponent from '../QuestionSkillScoreComponent';
+import { FontAwesome } from '@expo/vector-icons';
+
 const styles = StyleSheet.create({
 });
 
@@ -9,7 +11,8 @@ class FillTheDropDown extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      score: 0
+      score: 0,
+      timer: 0
     }
   }
 
@@ -24,10 +27,13 @@ class FillTheDropDown extends Component {
         <View style={[classes.flexRowS_BCenter, { paddingTop: 25 }]}>
           <View style={{ flexDirection: 'column' }}>
             <Text style={[classes.scorePoints]}>{`Question ${currentQuestionNo}/${totalQuestions}`}</Text>
-            <Text style={[classes.scorePoints]}>{`type: Fill The Drop Down`}</Text>
+            <Text style={[classes.scorePoints]}>{`Fill The Drop Down`}</Text>
           </View>
-          <Text style={[classes.scorePoints]}>00:00</Text>
-          <Text style={[classes.scorePoints]}>0/1</Text>
+          <Text style={classes.quesTimer}>00:00</Text>
+          <View style={classes.flexRowS_BCenter}>
+            <Text style={[classes.scorePoints]}>0/1</Text>
+            <FontAwesome name={'lightbulb-o'} style={classes.hintBulb} />
+          </View>
         </View>
       </View>
     );
