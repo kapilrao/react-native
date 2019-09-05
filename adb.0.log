@@ -65,3 +65,15 @@ adb I 08-30 18:31:16  6946  6946 adb_auth_host.cpp:467] Calling send_auth_respon
 adb I 08-30 18:31:16  6946  6946 adb_auth_host.cpp:435] Calling send_auth_publickey
 adb I 08-30 18:31:24  6946  6946 adb_auth_host.cpp:467] Calling send_auth_response
 adb I 08-30 18:31:24  6946  6946 adb_auth_host.cpp:435] Calling send_auth_publickey
+--- adb starting (pid 4425) ---
+adb I 09-05 11:46:33  4425  4425 main.cpp:57] Android Debug Bridge version 1.0.39
+adb I 09-05 11:46:33  4425  4425 main.cpp:57] Version 1:8.1.0+r23-5~18.04
+adb I 09-05 11:46:33  4425  4425 main.cpp:57] Installed as /usr/lib/android-sdk/platform-tools/adb
+adb I 09-05 11:46:33  4425  4425 main.cpp:57] 
+adb I 09-05 11:46:33  4425  4425 adb_auth_host.cpp:416] adb_auth_init...
+adb I 09-05 11:46:33  4425  4425 adb_auth_host.cpp:174] read_key_file '/home/kapil/.android/adbkey'...
+adb I 09-05 11:46:33  4425  4425 adb_auth_host.cpp:391] adb_auth_inotify_init...
+adb I 09-05 12:22:20  4425  4425 adb_auth_host.cpp:467] Calling send_auth_response
+adb I 09-05 12:23:06  4425  4425 adb_auth_host.cpp:467] Calling send_auth_response
+adb I 09-05 17:04:41  4425  4425 adb_auth_host.cpp:467] Calling send_auth_response
+adb E 09-05 17:08:55  4425 19231 transport_usb.cpp:146] remote usb: 1 - write terminated: Connection timed out
