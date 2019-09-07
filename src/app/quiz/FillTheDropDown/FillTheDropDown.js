@@ -48,7 +48,7 @@ class FillTheDropDown extends Component {
 
     if (paragraphResources && paragraphResources.length > 0) {
       paragraphResources.map(item => {
-        paragraphContainer = paragraphContainer + `<div style="display:inline-block;padding:3px;">${item}</div>`;
+        paragraphContainer = paragraphContainer + `<div style="display:inline-block;paddingRight:3px;">${item}</div>`;
       });
     }
 
@@ -112,14 +112,16 @@ class FillTheDropDown extends Component {
   renderImageView = (imageUrlArray, videoUrlArray, paragraphContainer) => {
     if (imageUrlArray.length > 0 && videoUrlArray.length > 0) {
       return (
-        <View style={{ flex: 1 }}>
-          <WebView
-            originWhitelist={["*"]}
-            source={{ html: `${paragraphContainer}` }}
-            style={{ backgroundColor: '#D3D3D3', flex: 1 }}
-          />
-          <View style={{ flex: 1, justifyContent: 'flex-start', flexDirection: 'row' }}>
-            <View style={{ flexDirection: 'row' }}>
+        <View style={{ justifyContent: 'flex-start', flexDirection: 'column', flex: 1, flexWrap: 'wrap' }}>
+          <View style={{ justifyContent: 'flex-start', flexDirection: 'row', flex: 1 }}>
+            <WebView
+              originWhitelist={["*"]}
+              source={{ html: `${paragraphContainer}` }}
+              style={{ backgroundColor: '#D3D3D3' }}
+            />
+          </View>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', flex: 1 }}>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
               {imageUrlArray.map((item, index) => {
                 return (
                   <TouchableHighlight onPress={() => this.pressme(item)} key={index} style={{ paddingBottom: 10, paddingRight: 10 }}>
@@ -128,7 +130,7 @@ class FillTheDropDown extends Component {
                 )
               })}
             </View>
-            <View style={{ flexDirection: 'row' }}>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
               {videoUrlArray.map((item, index) => {
                 return (
                   <TouchableHighlight onPress={() => this.pressme(item)} key={index} style={{ paddingBottom: 10, paddingRight: 10 }}>
@@ -206,39 +208,43 @@ class FillTheDropDown extends Component {
             <FontAwesome name={'lightbulb-o'} style={classes.hintBulb} />
           </View>
         </View>
-        {question.questionParts.map((item, index) => (
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'flex-start',
-              justifyContent: 'flex-start',
-              flex: 1,
-              // flexWrap: 'wrap'
-            }}
-            key={index}
-          >
-            {item.type == 'question' ? (
-              this.renderQuestion(item.question)
-            ) : (
-                <Picker
-                  key={index}
-                  selectedValue={this.state.language}
-                  style={{ minWidth: 100, flex: 1 }}
-                  onValueChange={(itemValue, itemIndex) =>
-                    this.setState({ language: itemValue })
-                  }
-                >
-                  {item.values.map((subitems, i) => (
-                    <Picker.Item
-                      key={i}
-                      label={subitems.toUpperCase()}
-                      value={subitems}
-                    />
-                  ))}
-                </Picker>
-              )}
-          </View>
-        ))}
+        <View style={{ paddingTop: 25, flexDirection: 'column', flexWrap: "wrap", flex: 1 }}>
+          {question.questionParts.map((item, index) => (
+            <View
+              style={{
+                flexDirection: 'row',
+                // alignItems: 'center',
+                justifyContent: 'flex-start',
+                flexWrap: 'wrap',
+                flex: 1
+              }}
+              key={index}
+            >
+              {item.type == 'question' ? (
+                <View style={{ flex: 1, flexDirection: 'row' }}>{this.renderQuestion(item.question)}</View>
+              ) : (
+                  <View style={{ flex: 1, flexDirection: 'row' }}>
+                    <Picker
+                      key={index}
+                      selectedValue={this.state.language}
+                      style={{ minWidth: 100, flex: 1 }}
+                      onValueChange={(itemValue, itemIndex) =>
+                        this.setState({ language: itemValue })
+                      }
+                    >
+                      {item.values.map((subitems, i) => (
+                        <Picker.Item
+                          key={i}
+                          label={subitems.toUpperCase()}
+                          value={subitems}
+                        />
+                      ))}
+                    </Picker>
+                  </View>
+                )}
+            </View>
+          ))}
+        </View>
       </View>
     );
   }
