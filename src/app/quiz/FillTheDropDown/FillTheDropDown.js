@@ -23,9 +23,9 @@ class FillTheDropDown extends Component {
 
   renderQuestion = question => {
     let imageUrlArray = [], imagePart = [], videoPart = [], videoUrlArray = [],
-      paragraphContainer = '';
+      paragraphContainer = [];
     let paragraphResources = question.match(
-      new RegExp('<p>s*(.+?)s*</p>', 'g')
+      new RegExp('<p>(.*?)<\/p>', 'g')
     );
     let resourceContainer = question.match(
       new RegExp('<figure*(.+?)s*/>', 'g')
@@ -48,19 +48,23 @@ class FillTheDropDown extends Component {
 
     if (paragraphResources && paragraphResources.length > 0) {
       paragraphResources.map(item => {
-        paragraphContainer = paragraphContainer + `<div style="display:inline-block;paddingRight:3px;">${item}</div>`;
+        // paragraphContainer = paragraphContainer + `<div style="display:inline-block;paddingRight:3px;">${item}</div>`;
+        paragraphContainer.push(item.replace(/<\/?p>/g, ''))
       });
     }
 
     if (imageUrlArray && imageUrlArray.length > 0 || videoUrlArray && videoUrlArray.length > 0) {
       return this.renderImageView(imageUrlArray, videoUrlArray, paragraphContainer);
-    } else {
+    } else if (paragraphContainer && paragraphContainer.length > 0) {
       return (
-        <WebView
-          originWhitelist={['*']}
-          source={{ html: `${paragraphContainer}` }}
-          style={{ backgroundColor: '#D3D3D3' }}
-        />
+        // <WebView
+        //   originWhitelist={['*']}
+        //   source={{ html: `${paragraphContainer}` }}
+        //   style={{ backgroundColor: '#D3D3D3' }}
+        // />
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>{paragraphContainer.map((item, i) => {
+          return (<Text key={i}>{item}</Text>)
+        })}</View>
       );
     }
   };
@@ -111,30 +115,34 @@ class FillTheDropDown extends Component {
 
   renderImageView = (imageUrlArray, videoUrlArray, paragraphContainer) => {
     if (imageUrlArray.length > 0 && videoUrlArray.length > 0) {
+      console.log('dfsasfdasfdasfd', paragraphContainer);
       return (
-        <View style={{ justifyContent: 'flex-start', flexDirection: 'column', flex: 1, flexWrap: 'wrap' }}>
-          <View style={{ justifyContent: 'flex-start', flexDirection: 'row', flex: 1 }}>
+        <View style={{ justifyContent: 'flex-start', flexDirection: 'row', flexWrap: 'wrap' }}>
+          {/* <View style={{ justifyContent: 'flex-start', flexDirection: 'row', flex: 1 }}>
             <WebView
               originWhitelist={["*"]}
               source={{ html: `${paragraphContainer}` }}
               style={{ backgroundColor: '#D3D3D3' }}
             />
-          </View>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', flex: 1 }}>
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+          </View> */}
+          {paragraphContainer.length > 0 && <View style={{ flexDirection: 'row' }}>{paragraphContainer.map((item, i) => {
+            return (<Text style={{ paddingRight: 3 }} key={i}>{item}</Text>)
+          })}</View>}
+          <View style={{ flexDirection: 'row', paddingTop: 5, flexWrap: 'wrap' }}>
+            <View style={{ flexDirection: 'row'}}>
               {imageUrlArray.map((item, index) => {
                 return (
                   <TouchableHighlight onPress={() => this.pressme(item)} key={index} style={{ paddingBottom: 10, paddingRight: 10 }}>
-                    <Image source={{ uri: item.url }} style={{ width: 175, height: 100 }} />
+                    <Image source={{ uri: item.url }} style={{ width: 150, height: 100 }} />
                   </TouchableHighlight>
                 )
               })}
             </View>
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+            <View style={{ flexDirection: 'row'}}>
               {videoUrlArray.map((item, index) => {
                 return (
                   <TouchableHighlight onPress={() => this.pressme(item)} key={index} style={{ paddingBottom: 10, paddingRight: 10 }}>
-                    <Image source={{ uri: item.thumbnail }} style={{ width: 175, height: 100 }} />
+                    <Image source={{ uri: item.thumbnail }} style={{ width: 150, height: 100 }} />
                   </TouchableHighlight>
                 )
               })}
@@ -144,17 +152,20 @@ class FillTheDropDown extends Component {
       );
     } else if (imageUrlArray.length > 0) {
       return (
-        <View style={{ flex: 1 }}>
-          <WebView
+        <View style={{ justifyContent: 'flex-start', flexDirection: 'row', flexWrap: 'wrap' }}>
+          {/* <WebView
             originWhitelist={["*"]}
             source={{ html: `${paragraphContainer}` }}
             style={{ backgroundColor: '#D3D3D3', flex: 1 }}
-          />
-          <View style={{ flex: 1, alignItems: 'center' }}>
+          /> */}
+          {paragraphContainer.length > 0 && <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>{paragraphContainer.map((item, i) => {
+            return (<Text style={{ paddingRight: 3 }} key={i}>{item}</Text>)
+          })}</View>}
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
             {imageUrlArray.map((item, index) => {
               return (
                 <TouchableHighlight onPress={() => this.pressme(item)} key={index} style={{ paddingBottom: 10 }}>
-                  <Image source={{ uri: item.url }} style={{ width: 175, height: 100 }} />
+                  <Image source={{ uri: item.url }} style={{ width: 150, height: 100 }} />
                 </TouchableHighlight>
               )
             })}
@@ -163,17 +174,20 @@ class FillTheDropDown extends Component {
       );
     } else if (videoUrlArray.length > 0) {
       return (
-        <View style={{ flex: 1 }}>
-          <WebView
+        <View style={{ justifyContent: 'flex-start', flexDirection: 'row', flexWrap: 'wrap' }}>
+          {/* <WebView
             originWhitelist={["*"]}
             source={{ html: `${paragraphContainer}` }}
             style={{ backgroundColor: '#D3D3D3', flex: 1 }}
-          />
-          <View style={{ flex: 1, alignItems: 'center' }}>
+          /> */}
+          {paragraphContainer.length > 0 && <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>{paragraphContainer.map((item, i) => {
+            return (<Text style={{ paddingRight: 3 }} key={i}>{item}</Text>)
+          })}</View>}
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
             {videoUrlArray.map((item, index) => {
               return (
                 <TouchableHighlight onPress={() => this.pressme(item)} key={index} style={{ paddingBottom: 10 }}>
-                  <Image source={{ uri: item.url }} style={{ width: 175, height: 100 }} />
+                  <Image source={{ uri: item.url }} style={{ width: 150, height: 100 }} />
                 </TouchableHighlight>
               )
             })}
@@ -208,39 +222,37 @@ class FillTheDropDown extends Component {
             <FontAwesome name={'lightbulb-o'} style={classes.hintBulb} />
           </View>
         </View>
-        <View style={{ paddingTop: 25, flexDirection: 'column', flexWrap: "wrap", flex: 1 }}>
+        <View style={{ paddingTop: 25, flexDirection: 'row', flexWrap: "wrap" }}>
           {question.questionParts.map((item, index) => (
             <View
               style={{
                 flexDirection: 'row',
-                // alignItems: 'center',
+                alignItems: 'center',
                 justifyContent: 'flex-start',
                 flexWrap: 'wrap',
-                flex: 1
+                // flex: 1
               }}
               key={index}
             >
               {item.type == 'question' ? (
-                <View style={{ flex: 1, flexDirection: 'row' }}>{this.renderQuestion(item.question)}</View>
+                <View style={{}}>{this.renderQuestion(item.question)}</View>
               ) : (
-                  <View style={{ flex: 1, flexDirection: 'row' }}>
-                    <Picker
-                      key={index}
-                      selectedValue={this.state.language}
-                      style={{ minWidth: 100, flex: 1 }}
-                      onValueChange={(itemValue, itemIndex) =>
-                        this.setState({ language: itemValue })
-                      }
-                    >
-                      {item.values.map((subitems, i) => (
-                        <Picker.Item
-                          key={i}
-                          label={subitems.toUpperCase()}
-                          value={subitems}
-                        />
-                      ))}
-                    </Picker>
-                  </View>
+                  <Picker
+                    key={index}
+                    selectedValue={this.state.language}
+                    style={{ minWidth: 100 }}
+                    onValueChange={(itemValue, itemIndex) =>
+                      this.setState({ language: itemValue })
+                    }
+                  >
+                    {item.values.map((subitems, i) => (
+                      <Picker.Item
+                        key={i}
+                        label={subitems.toUpperCase()}
+                        value={subitems}
+                      />
+                    ))}
+                  </Picker>
                 )}
             </View>
           ))}
