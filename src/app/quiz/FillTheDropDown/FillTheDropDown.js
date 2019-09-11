@@ -1,10 +1,26 @@
-import { StyleSheet, Text, View, Picker, Image, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, Picker, Image, TouchableHighlight, ScrollView, WebView, Button } from 'react-native';
 import React, { Component } from 'react';
 import QuestionSkillScoreComponent from '../QuestionSkillScoreComponent';
 import { FontAwesome } from '@expo/vector-icons';
-import { WebView } from 'react-native';
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  submit: {
+    marginRight: 20,
+    marginLeft: 20,
+    marginTop: 10,
+    paddingTop: 12,
+    paddingBottom: 12,
+    backgroundColor: '#68a0cf',
+    borderRadius: 50,
+    borderWidth: 1,
+    borderColor: '#fff'
+  },
+  submitText: {
+    color: '#fff',
+    textAlign: 'center',
+    fontSize: 20
+  }
+});
 
 class FillTheDropDown extends Component {
   constructor(props) {
@@ -22,7 +38,7 @@ class FillTheDropDown extends Component {
   };
 
   renderQuestion = question => {
-    let imageUrlArray = [], imagePart = [], videoPart = [], videoUrlArray = [],
+    let imageWithoutFigureTag = [], imageUrlArray = [], imagePart = [], videoPart = [], videoUrlArray = [],
       paragraphContainer = [];
     let paragraphResources = question.match(
       new RegExp('<p>(.*?)<\/p>', 'g')
@@ -30,12 +46,19 @@ class FillTheDropDown extends Component {
     let resourceContainer = question.match(
       new RegExp('<figure*(.+?)s*/>', 'g')
     );
+    let withoutFigureTag = question.replace(new RegExp('<figure*(.+?)s*/>', 'g'), '')
+    imageWithoutFigureTag = withoutFigureTag.match(
+      new RegExp('<img*(.+?)s*/>', 'g')
+    );
 
     if (resourceContainer && resourceContainer.length > 0) {
       resourceContainer.map(item => {
         if (item.includes('resource-type="video"')) videoPart.push(item);
         else if (item.includes('resource-type="image"')) imagePart.push(item);
       })
+    }
+    if (imageWithoutFigureTag && imageWithoutFigureTag.length > 0) {
+      imagePart = [...imagePart, ...imageWithoutFigureTag];
     }
 
     if (videoPart && videoPart.length > 0) {
@@ -49,7 +72,8 @@ class FillTheDropDown extends Component {
     if (paragraphResources && paragraphResources.length > 0) {
       paragraphResources.map(item => {
         // paragraphContainer = paragraphContainer + `<div style="display:inline-block;paddingRight:3px;">${item}</div>`;
-        paragraphContainer.push(item.replace(/<\/?p>/g, ''))
+        let xyz = item.replace(/<\/?p>/g, '')
+        paragraphContainer.push(xyz.replace(/&nbsp;/g, ''))
       });
     }
 
@@ -115,9 +139,8 @@ class FillTheDropDown extends Component {
 
   renderImageView = (imageUrlArray, videoUrlArray, paragraphContainer) => {
     if (imageUrlArray.length > 0 && videoUrlArray.length > 0) {
-      console.log('dfsasfdasfdasfd', paragraphContainer);
       return (
-        <View style={{ justifyContent: 'flex-start', flexDirection: 'row', flexWrap: 'wrap' }}>
+        <View style={{ justifyContent: 'flex-start', flexDirection: 'row', flexWrap: 'wrap', padding: 5 }}>
           {/* <View style={{ justifyContent: 'flex-start', flexDirection: 'row', flex: 1 }}>
             <WebView
               originWhitelist={["*"]}
@@ -125,24 +148,24 @@ class FillTheDropDown extends Component {
               style={{ backgroundColor: '#D3D3D3' }}
             />
           </View> */}
-          {paragraphContainer.length > 0 && <View style={{ flexDirection: 'row' }}>{paragraphContainer.map((item, i) => {
+          {paragraphContainer.length > 0 && <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>{paragraphContainer.map((item, i) => {
             return (<Text style={{ paddingRight: 3 }} key={i}>{item}</Text>)
           })}</View>}
           <View style={{ flexDirection: 'row', paddingTop: 5, flexWrap: 'wrap' }}>
-            <View style={{ flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
               {imageUrlArray.map((item, index) => {
                 return (
-                  <TouchableHighlight onPress={() => this.pressme(item)} key={index} style={{ paddingBottom: 10, paddingRight: 10 }}>
-                    <Image source={{ uri: item.url }} style={{ width: 150, height: 100 }} />
+                  <TouchableHighlight onPress={() => this.pressme(item)} key={index} style={{ padding: 3 }}>
+                    <Image source={{ uri: item.url }} style={{ width: 175, height: 110 }} />
                   </TouchableHighlight>
                 )
               })}
             </View>
-            <View style={{ flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
               {videoUrlArray.map((item, index) => {
                 return (
-                  <TouchableHighlight onPress={() => this.pressme(item)} key={index} style={{ paddingBottom: 10, paddingRight: 10 }}>
-                    <Image source={{ uri: item.thumbnail }} style={{ width: 150, height: 100 }} />
+                  <TouchableHighlight onPress={() => this.pressme(item)} key={index} style={{ padding: 3 }}>
+                    <Image source={{ uri: item.thumbnail }} style={{ width: 175, height: 110 }} />
                   </TouchableHighlight>
                 )
               })}
@@ -222,41 +245,62 @@ class FillTheDropDown extends Component {
             <FontAwesome name={'lightbulb-o'} style={classes.hintBulb} />
           </View>
         </View>
-        <View style={{ paddingTop: 25, flexDirection: 'row', flexWrap: "wrap" }}>
-          {question.questionParts.map((item, index) => (
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'flex-start',
-                flexWrap: 'wrap',
-                // flex: 1
-              }}
-              key={index}
-            >
-              {item.type == 'question' ? (
-                <View style={{}}>{this.renderQuestion(item.question)}</View>
-              ) : (
-                  <Picker
-                    key={index}
-                    selectedValue={this.state.language}
-                    style={{ minWidth: 100 }}
-                    onValueChange={(itemValue, itemIndex) =>
-                      this.setState({ language: itemValue })
-                    }
-                  >
-                    {item.values.map((subitems, i) => (
+        <ScrollView showsVerticalScrollIndicator={true}>
+          <View style={{ paddingTop: 25, flexDirection: 'row', flexWrap: "wrap" }}>
+            {question.questionParts.map((item, index) => (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'flex-start',
+                  flexWrap: 'wrap',
+                  // flex: 1
+                }}
+                key={index}
+              >
+                {item.type == 'question' ? (
+                  <View style={{}}>{this.renderQuestion(item.question)}</View>
+                ) : (
+                    <Picker
+                      key={index}
+                      selectedValue={this.state.language}
+                      style={{ minWidth: 120 }}
+                      onValueChange={(itemValue, itemIndex) =>
+                        itemValue !== 0 && this.setState({ language: itemValue })
+                      }
+                    >
                       <Picker.Item
-                        key={i}
-                        label={subitems.toUpperCase()}
-                        value={subitems}
+                        label='select item..'
+                        value={0}
+                        style={{ display: 'hidden' }}
+                        enabled={false}
                       />
-                    ))}
-                  </Picker>
-                )}
-            </View>
-          ))}
-        </View>
+                      {item.values.map((subitems, i) => (
+                        <Picker.Item
+                          key={i}
+                          label={subitems.toUpperCase()}
+                          value={subitems}
+                        />
+                      ))}
+                    </Picker>
+                  )}
+              </View>
+            ))}
+          </View>
+        </ScrollView>
+        <TouchableHighlight
+          style={styles.submit}
+          onPress={() => this.submitSuggestion(this.props)}
+          underlayColor='#fff'>
+          <Text style={[styles.submitText]}>Submit</Text>
+        </TouchableHighlight>
+        {/* <View style={{ paddingTop: 25 }}>
+          <Button
+            title="Submit"
+            onPress={() => Alert.alert('Simple Button pressed')}
+            style={{ padding: 20 }}
+          />
+        </View> */}
       </View>
     );
   }
