@@ -1,7 +1,9 @@
-import { StyleSheet, Text, View, Picker, Image, TouchableHighlight, ScrollView, WebView, Button } from 'react-native';
+import { StyleSheet, Text, View, Picker, Image, TouchableHighlight, ScrollView, WebView, TouchableOpacity, Alert } from 'react-native';
 import React, { Component } from 'react';
 import QuestionSkillScoreComponent from '../QuestionSkillScoreComponent';
 import { FontAwesome } from '@expo/vector-icons';
+import icon_hint_bulb from '../QuizIcons/icon_hint_bulb.png';
+import HintModel from '../HintModel';
 
 const styles = StyleSheet.create({
   submit: {
@@ -29,6 +31,7 @@ class FillTheDropDown extends Component {
       score: 0,
       timer: 0,
       imageUrl: '',
+      isShowHint: false
     };
   }
 
@@ -86,8 +89,8 @@ class FillTheDropDown extends Component {
         //   source={{ html: `${paragraphContainer}` }}
         //   style={{ backgroundColor: '#D3D3D3' }}
         // />
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>{paragraphContainer.map((item, i) => {
-          return (<Text key={i}>{item}</Text>)
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', paddingLeft: 5 }}>{paragraphContainer.map((item, i) => {
+          return (<Text key={i} style={{ paddingRight: 3, fontSize: 18 }}>{item}</Text>)
         })}</View>
       );
     }
@@ -149,7 +152,7 @@ class FillTheDropDown extends Component {
             />
           </View> */}
           {paragraphContainer.length > 0 && <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>{paragraphContainer.map((item, i) => {
-            return (<Text style={{ paddingRight: 3 }} key={i}>{item}</Text>)
+            return (<Text style={{ paddingRight: 3, fontSize: 18 }} key={i}>{item}</Text>)
           })}</View>}
           <View style={{ flexDirection: 'row', paddingTop: 5, flexWrap: 'wrap' }}>
             <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
@@ -182,7 +185,7 @@ class FillTheDropDown extends Component {
             style={{ backgroundColor: '#D3D3D3', flex: 1 }}
           /> */}
           {paragraphContainer.length > 0 && <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>{paragraphContainer.map((item, i) => {
-            return (<Text style={{ paddingRight: 3 }} key={i}>{item}</Text>)
+            return (<Text style={{ paddingRight: 3, fontSize: 18 }} key={i}>{item}</Text>)
           })}</View>}
           <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
             {imageUrlArray.map((item, index) => {
@@ -204,7 +207,7 @@ class FillTheDropDown extends Component {
             style={{ backgroundColor: '#D3D3D3', flex: 1 }}
           /> */}
           {paragraphContainer.length > 0 && <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>{paragraphContainer.map((item, i) => {
-            return (<Text style={{ paddingRight: 3 }} key={i}>{item}</Text>)
+            return (<Text style={{ paddingRight: 3, fontSize: 18 }} key={i}>{item}</Text>)
           })}</View>}
           <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
             {videoUrlArray.map((item, index) => {
@@ -220,11 +223,15 @@ class FillTheDropDown extends Component {
     }
   }
 
+  toggleHintModel = () => {
+    this.setState({ isShowHint: !this.state.isShowHint })
+  }
   render() {
-    const { score } = this.state;
+    const { score, isShowHint } = this.state;
     const { question, classes, currentQuestionNo, totalQuestions } = this.props;
     return (
       <View style={{ flex: 1, justifyContent: 'flex-start' }}>
+        {isShowHint && <HintModel toggleHintModel={this.toggleHintModel} isShowHint={isShowHint} />}
         <View style={[classes.flexRowS_BCenter]}>
           <QuestionSkillScoreComponent
             skillName={question.skills[0].name}
@@ -242,7 +249,13 @@ class FillTheDropDown extends Component {
           <Text style={classes.quesTimer}>00:00</Text>
           <View style={classes.flexRowS_BCenter}>
             <Text style={[classes.scorePoints]}>0/1</Text>
-            <FontAwesome name={'lightbulb-o'} style={classes.hintBulb} />
+            {/* <FontAwesome name={'lightbulb-o'} style={classes.hintBulb} /> */}
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.toggleHintModel()}
+            >
+              <Image source={icon_hint_bulb} style={{ height: 50, width: 50 }} />
+            </TouchableOpacity>
           </View>
         </View>
         <ScrollView showsVerticalScrollIndicator={true}>
@@ -290,18 +303,11 @@ class FillTheDropDown extends Component {
         </ScrollView>
         <TouchableHighlight
           style={styles.submit}
-          onPress={() => this.submitSuggestion(this.props)}
+          onPress={() => Alert.alert('Simple Button pressed')}
           underlayColor='#fff'>
           <Text style={[styles.submitText]}>Submit</Text>
         </TouchableHighlight>
-        {/* <View style={{ paddingTop: 25 }}>
-          <Button
-            title="Submit"
-            onPress={() => Alert.alert('Simple Button pressed')}
-            style={{ padding: 20 }}
-          />
-        </View> */}
-      </View>
+      </View >
     );
   }
 }
