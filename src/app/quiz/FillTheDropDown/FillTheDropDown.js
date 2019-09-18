@@ -4,6 +4,7 @@ import QuestionSkillScoreComponent from '../QuestionSkillScoreComponent';
 import { FontAwesome } from '@expo/vector-icons';
 import icon_hint_bulb from '../QuizIcons/icon_hint_bulb.png';
 import HintModel from '../HintModel';
+import ExplanationModel from '../ExplanationModel';
 
 const styles = StyleSheet.create({
   submit: {
@@ -31,7 +32,8 @@ class FillTheDropDown extends Component {
       score: 0,
       timer: 0,
       imageUrl: '',
-      isShowHint: false
+      isShowHint: false,
+      isShowExplanation: false
     };
   }
 
@@ -75,8 +77,8 @@ class FillTheDropDown extends Component {
     if (paragraphResources && paragraphResources.length > 0) {
       paragraphResources.map(item => {
         // paragraphContainer = paragraphContainer + `<div style="display:inline-block;paddingRight:3px;">${item}</div>`;
-        let xyz = item.replace(/<\/?p>/g, '')
-        paragraphContainer.push(xyz.replace(/&nbsp;/g, ''))
+        let xyz = item.replace(/<\/?p>|<img*(.+?)s*\/>|<br \/>/g, '');
+        paragraphContainer.push(xyz.replace(/&nbsp;|↵/g, ''))
       });
     }
 
@@ -226,12 +228,20 @@ class FillTheDropDown extends Component {
   toggleHintModel = () => {
     this.setState({ isShowHint: !this.state.isShowHint })
   }
+
+  toggleExplanationModel = () => {
+    this.setState({isShowExplanation:!this.state.isShowExplanation});
+  }
+
   render() {
-    const { score, isShowHint } = this.state;
+    const { score, isShowHint, isShowExplanation } = this.state;
     const { question, classes, currentQuestionNo, totalQuestions } = this.props;
     return (
       <View style={{ flex: 1, justifyContent: 'flex-start' }}>
-        {isShowHint && <HintModel toggleHintModel={this.toggleHintModel} isShowHint={isShowHint} />}
+
+        {isShowHint && <HintModel toggleHintModel={this.toggleHintModel} isShowHint={isShowHint} hintArray={question.hints} renderQuestion={this.renderQuestion} />}
+        {isShowExplanation && <ExplanationModel toggleExplanationModel={this.toggleExplanationModel} isShowHint={isShowExplanation} hintArray={question.explanations} renderQuestion={this.renderQuestion} />}
+
         <View style={[classes.flexRowS_BCenter]}>
           <QuestionSkillScoreComponent
             skillName={question.skills[0].name}
@@ -276,10 +286,12 @@ class FillTheDropDown extends Component {
                 ) : (
                     <Picker
                       key={index}
-                      selectedValue={this.state.language}
+                      selectedValue={this.state[`dropdown_${index + 1}`]}
                       style={{ minWidth: 120 }}
-                      onValueChange={(itemValue, itemIndex) =>
-                        itemValue !== 0 && this.setState({ language: itemValue })
+                      onValueChange={(itemValue, itemIndex) => {
+                      itemValue !== 0 && this.setState({ [`dropdown_${index + 1}`]: itemValue });
+                        console.log(this.state);
+                      }
                       }
                     >
                       <Picker.Item

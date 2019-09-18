@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Modal } from 'react-native';
+import { View, ScrollView, Modal } from 'react-native';
 
 class HintModel extends Component {
   constructor(props) {
@@ -7,7 +7,7 @@ class HintModel extends Component {
     this.state = {}
   }
   render() {
-    const { isShowHint, toggleHintModel } = this.props;
+    const { isShowHint, toggleHintModel, hintArray, renderQuestion } = this.props;
     return (
       <Modal
         animationType="slide"
@@ -15,19 +15,25 @@ class HintModel extends Component {
         visible={isShowHint}
         onRequestClose={() => toggleHintModel()}
         presentationStyle='formSheet'>
-        <View style={{
-          flex: 1,
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}>
-          <View style={{
-            width: 300,
-            height: 300
-          }}>
-            <Text>Hint</Text>
+        <ScrollView showsVerticalScrollIndicator={true}>
+          <View style={{ flexDirection: 'row', flexWrap: "wrap" }}>
+            {hintArray && hintArray.length > 0 && hintArray.map((item, index) => (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'flex-start',
+                  flexWrap: 'wrap',
+                  // flex: 1
+                }}
+                key={index}
+              >
+                {item.content && (
+                  <View style={{}}>{renderQuestion(item.content)}</View>)}
+              </View>
+            ))}
           </View>
-        </View>
+        </ScrollView>
       </Modal>
     );
   }
