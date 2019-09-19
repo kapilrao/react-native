@@ -7,7 +7,7 @@ class ExplanationModel extends Component {
     this.state = {}
   }
   render() {
-    const { isShowExplanation, toggleExplanationModel, ExplanationArray, renderQuestion } = this.props;
+    const { isShowExplanation, toggleExplanationModel, explanationData, renderQuestion } = this.props;
     return (<Modal
       animationType="slide"
       transparent={false}
@@ -16,7 +16,7 @@ class ExplanationModel extends Component {
       presentationStyle='formSheet'>
       <ScrollView showsVerticalScrollIndicator={true}>
         <View style={{ flexDirection: 'row', flexWrap: "wrap" }}>
-          {ExplanationArray && ExplanationArray.length > 0 && ExplanationArray.map((item, index) => (
+          {explanationData && (
             <View
               style={{
                 flexDirection: 'row',
@@ -25,12 +25,10 @@ class ExplanationModel extends Component {
                 flexWrap: 'wrap',
                 // flex: 1
               }}
-              key={index}
             >
-              {item.content && (
-                <View style={{}}>{renderQuestion(item.content)}</View>)}
+                <View style={{}}>{renderQuestion(explanationData)}</View>
             </View>
-          ))}
+          )}
         </View>
       </ScrollView>
     </Modal>);

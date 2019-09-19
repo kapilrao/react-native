@@ -33,7 +33,7 @@ class FillTheDropDown extends Component {
       timer: 0,
       imageUrl: '',
       isShowHint: false,
-      isShowExplanation: false
+      isShowExplanation: true
     };
   }
 
@@ -75,11 +75,22 @@ class FillTheDropDown extends Component {
     }
 
     if (paragraphResources && paragraphResources.length > 0) {
+      let linkArray = []
       paragraphResources.map(item => {
         // paragraphContainer = paragraphContainer + `<div style="display:inline-block;paddingRight:3px;">${item}</div>`;
-        let xyz = item.replace(/<\/?p>|<img*(.+?)s*\/>|<br \/>/g, '');
-        paragraphContainer.push(xyz.replace(/&nbsp;|↵/g, ''))
+        let link = item.match(/<a[\s]+([^>]+)>((?:.(?!\<\/a\>))*.)<\/a>/g);
+        if (link && link.length > 0) {
+          link.map(item => {
+            let x = item.match(/href\s*=\s*(['"])(https?:\/\/.+?)\1/g);
+            if (x && x.length > 0) {
+              x.map(item => { linkArray.push(item.replace(/\'|href=/g, '')) })
+            }
+          })
+        }
+        let xyz = item.replace(/<\/?p>|<img*(.+?)s*\/>|<a[\s]+([^>]+)>((?:.(?!\<\/a\>))*.)<\/a>|<br \/>/g, '');
+        paragraphContainer.push(xyz.replace(/&nbsp;|↵/g, ''));
       });
+      if (linkArray && linkArray.length > 0) { paragraphContainer = [...paragraphContainer, ...linkArray]; }
     }
 
     if (imageUrlArray && imageUrlArray.length > 0 || videoUrlArray && videoUrlArray.length > 0) {
@@ -92,11 +103,22 @@ class FillTheDropDown extends Component {
         //   style={{ backgroundColor: '#D3D3D3' }}
         // />
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', paddingLeft: 5 }}>{paragraphContainer.map((item, i) => {
-          return (<Text key={i} style={{ paddingRight: 3, fontSize: 18 }}>{item}</Text>)
+          let key = this.validURL(item);
+          if (key) return (<Text key={i} style={{ paddingRight: 3, fontSize: 18 }}>{item}</Text>);
+          else return <Text key={i} style={{ paddingRight: 3, fontSize: 18, color: 'blue' }} onPress={() => console.log(item)}>{item}</Text>;
         })}</View>
       );
     }
   };
+
+  validURL = (str) => {
+    var regex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
+    if (!!regex.test(str)) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 
   getImage = (imagePart) => {
     let imgResources = [], imageUrlArray = [];
@@ -230,7 +252,7 @@ class FillTheDropDown extends Component {
   }
 
   toggleExplanationModel = () => {
-    this.setState({isShowExplanation:!this.state.isShowExplanation});
+    this.setState({ isShowExplanation: !this.state.isShowExplanation });
   }
 
   render() {
@@ -240,7 +262,7 @@ class FillTheDropDown extends Component {
       <View style={{ flex: 1, justifyContent: 'flex-start' }}>
 
         {isShowHint && <HintModel toggleHintModel={this.toggleHintModel} isShowHint={isShowHint} hintArray={question.hints} renderQuestion={this.renderQuestion} />}
-        {isShowExplanation && <ExplanationModel toggleExplanationModel={this.toggleExplanationModel} isShowHint={isShowExplanation} hintArray={question.explanations} renderQuestion={this.renderQuestion} />}
+        {isShowExplanation && <ExplanationModel toggleExplanationModel={this.toggleExplanationModel} isShowHint={isShowExplanation} explanationData={question.explanation} renderQuestion={this.renderQuestion} />}
 
         <View style={[classes.flexRowS_BCenter]}>
           <QuestionSkillScoreComponent
@@ -289,7 +311,7 @@ class FillTheDropDown extends Component {
                       selectedValue={this.state[`dropdown_${index + 1}`]}
                       style={{ minWidth: 120 }}
                       onValueChange={(itemValue, itemIndex) => {
-                      itemValue !== 0 && this.setState({ [`dropdown_${index + 1}`]: itemValue });
+                        itemValue !== 0 && this.setState({ [`dropdown_${index + 1}`]: itemValue });
                         console.log(this.state);
                       }
                       }
