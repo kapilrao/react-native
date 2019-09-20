@@ -29,6 +29,17 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center'
   },
+  flexRowStartWrap: {
+    justifyContent: 'flex-start',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  },
+  flexRowStartCenterWrap: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    flexWrap: 'wrap'
+  },
   hintBulb: {
     fontSize: 30,
     marginLeft: 5,
@@ -71,10 +82,19 @@ class Quiz extends Component {
     }
   }
 
+  getNextQuestion = currentQuesNo => {
+    if (currentQuesNo !== questionsBank.length) {
+      this.setState({ questionObject: questionsBank[currentQuesNo], currentQuestionNo: currentQuesNo + 1 })
+    } else { }
+  }
+
   renderQuestionType = quesObject => {
     const { currentQuestionNo, totalQuestions, score } = this.state;
     switch (quesObject.type.toLowerCase()) {
       case 'fillthedropdown':
+        return (<FillTheDropDown question={quesObject} currentQuestionNo={currentQuestionNo} totalQuestions={totalQuestions} classes={styles} />);
+
+      case 'filltheblanks':
         return (<FillTheDropDown question={quesObject} currentQuestionNo={currentQuestionNo} totalQuestions={totalQuestions} classes={styles} />);
 
       default:
